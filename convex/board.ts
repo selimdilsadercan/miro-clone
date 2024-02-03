@@ -53,7 +53,7 @@ export const remove = mutation({
     const userId = identity.subject;
 
     const existingFavorite = await ctx.db
-      .query("userFavorites")
+      .query("UserFavorite")
       .withIndex("by_user_board", (q) => q.eq("userId", userId).eq("boardId", args.id))
       .unique();
     if (existingFavorite) await ctx.db.delete(existingFavorite._id);
@@ -101,12 +101,12 @@ export const favorite = mutation({
     if (!board) throw new Error("404: Board not found");
 
     const existingFavorite = await ctx.db
-      .query("userFavorites")
+      .query("UserFavorite")
       .withIndex("by_user_board", (q) => q.eq("userId", userId).eq("boardId", board._id))
       .unique();
     if (existingFavorite) throw new Error("409: Board already favorited");
 
-    await ctx.db.insert("userFavorites", {
+    await ctx.db.insert("UserFavorite", {
       userId,
       boardId: board._id,
       orgId: args.orgId
@@ -131,7 +131,7 @@ export const unfavorite = mutation({
     if (!board) throw new Error("404: Board not found");
 
     const existingFavorite = await ctx.db
-      .query("userFavorites")
+      .query("UserFavorite")
       .withIndex("by_user_board", (q) => q.eq("userId", userId).eq("boardId", board._id))
       .unique();
     if (!existingFavorite) throw new Error("404: Favorited board not found");
@@ -169,7 +169,7 @@ export const getMany = query({
 
     if (args.favorites) {
       const favoritedBoard = await ctx.db
-        .query("userFavorites")
+        .query("UserFavorite")
         .withIndex("by_user_org", (q) => q.eq("userId", identity.subject).eq("orgId", args.orgId))
         .order("desc")
         .collect();
@@ -202,7 +202,7 @@ export const getMany = query({
 
     const BoardWithFavoriteRelation = Board.map((board) => {
       return ctx.db
-        .query("userFavorites")
+        .query("UserFavorite")
         .withIndex("by_user_board", (q) => q.eq("userId", identity.subject).eq("boardId", board._id))
         .unique()
         .then((favorite) => {
