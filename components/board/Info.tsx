@@ -41,6 +41,7 @@ function Info({ boardId }: Props) {
           </Link>
         </Button>
       </Hint>
+
       <TabSeparator />
 
       <Hint label="Edit title" side="bottom" sideOffset={10}>
@@ -48,7 +49,9 @@ function Info({ boardId }: Props) {
           {data.title}
         </Button>
       </Hint>
+
       <TabSeparator />
+
       <Actions id={data._id} title={data.title} side="bottom" sideOffset={10}>
         <div>
           <Hint label="Main menu" side="bottom" sideOffset={10}>

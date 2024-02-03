@@ -1,9 +1,9 @@
 "use client";
 
-// import { LiveObject } from "@liveblocks/client";
-// import { useHistory, useCanUndo, useCanRedo, useMutation, useStorage, useOthersMapped, useSelf } from "@/liveblocks.config";
+import { LiveObject } from "@liveblocks/client";
+import { useHistory, useCanUndo, useCanRedo, useMutation, useStorage, useOthersMapped, useSelf } from "@/liveblocks.config";
 // import { colorToCss, connectionIdToColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
-// import { Camera, CanvasMode, CanvasState, Color, ayerType, Point, Side, XYWH } from "@/types/canvas";
+import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from "@/types";
 // import { useDisableScrollBounce } from "@/hooks/use-disable-scroll-bounce";
 // import { useDeleteLayers } from "@/hooks/use-delete-layers";
 import { nanoid } from "nanoid";

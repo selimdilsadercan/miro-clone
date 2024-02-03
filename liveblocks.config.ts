@@ -2,8 +2,8 @@ import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
 const client = createClient({
-  throttle: 16,
-  authEndpoint: "/api/liveblocks-auth"
+  authEndpoint: "/api/liveblocks-auth",
+  throttle: 16
 });
 
 type Presence = {
