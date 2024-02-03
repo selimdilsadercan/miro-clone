@@ -1,4 +1,4 @@
-- database:
+- database: convex
 
 - [x] "npx create-next-app@latest {project-name}" to initialize nextjs
 - [x] change layout, delete assets, change metadata
@@ -22,6 +22,11 @@
 - [x] enable organizations in clerk
 - [x] add org_role and org_id to jwt template
 
+- [x] create liveblocks project
+- [x] "npm i @liveblocks/client @liveblocks/react"
+- [x] "npx create-liveblocks-app@latest" and add key to .env as LIVEBLOCK_API_KEY
+- [ ] add Room.tsx
+
 ---
 
 - primary stack: nextjs13-app-nosrc, react, shadcn, tailwind, convex, clerk-withorg
@@ -39,3 +44,4 @@
 - her bir durum için ayrı empty state'ler yapmayı unutma
 - formatDistanceToNow ile related date yazabiliyosun
 - many-to-one ya da many-to-one relationlar için ayrı veri yapıları tutuyoruz
+- Component.Skeleton kullanırken ayrı bir use client Loading dosyası açıp her şeyi onda birleştir
