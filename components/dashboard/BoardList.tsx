@@ -7,6 +7,9 @@ import NewBoardButton from "./NewBoardButton";
 import EmptyBoards from "../empty/EmptyBoards";
 import EmptySearch from "../empty/EmptySearch";
 import { EmptyFavorites } from "../empty/EmptyFavorites";
+import { Doc } from "@/convex/_generated/dataModel";
+
+type ExtendedBoard = Doc<"Board"> & { isFavorite: boolean };
 
 interface Props {
   orgId: string;
@@ -14,7 +17,7 @@ interface Props {
 }
 
 function BoardList({ orgId, query }: Props) {
-  const data = useQuery(api.Board.getMany, { orgId, ...query });
+  const data: ExtendedBoard[] | undefined = useQuery(api.Board.getMany, { orgId, ...query });
 
   if (data === undefined) {
     return (
