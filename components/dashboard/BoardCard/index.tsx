@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-import Actions from "@/components/dashboard/BoardCard/Actions";
+import Actions from "@/components/Actions";
 import Footer from "./Footer";
 import Overlay from "./Overlay";
 import Link from "next/link";

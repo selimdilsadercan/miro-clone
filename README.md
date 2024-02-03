@@ -38,3 +38,4 @@
 - useDebounce ile inputlarda zaman aralıklı state değişimi yapıyor
 - her bir durum için ayrı empty state'ler yapmayı unutma
 - formatDistanceToNow ile related date yazabiliyosun
+- many-to-one ya da many-to-one relationlar için ayrı veri yapıları tutuyoruz
