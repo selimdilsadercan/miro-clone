@@ -24,8 +24,10 @@
 
 - [x] create liveblocks project
 - [x] "npm i @liveblocks/client @liveblocks/react"
-- [x] "npx create-liveblocks-app@latest" and add key to .env as LIVEBLOCK_API_KEY
-- [ ] add Room.tsx
+- [x] "npx create-liveblocks-app@latest" and add key to .env as LIVEBLOCKS_SECRET_KEY
+- [x] add Room.tsx
+- [x] "npm i @liveblocks/node"
+- [x] create /app/api/liveblocks-auth
 
 ---
 
