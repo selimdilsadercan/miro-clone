@@ -1,16 +1,16 @@
 "use client";
 
-// import { toast } from "sonner";
-import { Link2, Pencil, Trash2 } from "lucide-react";
-import { DropdownMenuContentProps } from "@radix-ui/react-dropdown-menu";
-// import { ConfirmModal } from "@/components/confirm-modal";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { DropdownMenuContentProps } from "@radix-ui/react-dropdown-menu";
+import { Link2, Pencil, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+// import { ConfirmModal } from "@/components/confirm-modal";
 import { api } from "@/convex/_generated/api";
-// import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import { Button } from "@/components/ui/button";
 // import { useRenameModal } from "@/store/use-rename-modal";
 
-interface ActionsProps {
+interface Props {
   children: React.ReactNode;
   side?: DropdownMenuContentProps["side"];
   sideOffset?: DropdownMenuContentProps["sideOffset"];
@@ -18,21 +18,21 @@ interface ActionsProps {
   title: string;
 }
 
-export const Actions = ({ children, side, sideOffset, id, title }: ActionsProps) => {
+function Actions({ children, side, sideOffset, id, title }: Props) {
   // const { onOpen } = useRenameModal();
-  // const { mutate, pending } = useApiMutation(api.board.remove);
+  const { mutate, pending } = useApiMutation(api.board.remove);
 
   const onCopyLink = () => {
-    // navigator.clipboard
-    //   .writeText(`${window.location.origin}/board/${id}`)
-    //   .then(() => toast.success("Link copied"))
-    //   .catch(() => toast.error("Failed to copy link"));
+    navigator.clipboard
+      .writeText(`${window.location.origin}/board/${id}`)
+      .then(() => toast.success("Link copied"))
+      .catch(() => toast.error("Failed to copy link"));
   };
 
   const onDelete = () => {
-    // mutate({ id })
-    //   .then(() => toast.success("Board deleted"))
-    //   .catch(() => toast.error("Failed to delete board"));
+    mutate({ id })
+      .then(() => toast.success("Board deleted"))
+      .catch(() => toast.error("Failed to delete board"));
   };
 
   return (
@@ -56,4 +56,6 @@ export const Actions = ({ children, side, sideOffset, id, title }: ActionsProps)
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
+
+export default Actions;

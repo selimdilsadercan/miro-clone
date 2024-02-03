@@ -1,20 +1,17 @@
 "use client";
 
-// import { toast } from "sonner";
-import Link from "next/link";
-import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { MoreHorizontal } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { api } from "@/convex/_generated/api";
-import Footer from "./Footer";
-import { Overlay } from "@radix-ui/react-dialog";
 import { Actions } from "@/components/Actions";
-// import { Actions } from "@/components/actions";
-// import { Skeleton } from "@/components/ui/skeleton";
-// import { useApiMutation } from "@/hooks/use-api-mutation";
-// import { Footer } from "./footer";
-// import { Overlay } from "./overlay";
+import { useApiMutation } from "@/hooks/use-api-mutation";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import Footer from "./Footer";
+import Overlay from "./Overlay";
+import Link from "next/link";
+import Image from "next/image";
 
 interface Props {
   id: string;
@@ -35,15 +32,15 @@ function BoardCard({ id, title, authorId, authorName, createdAt, imageUrl, orgId
     addSuffix: true
   });
 
-  // const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(api.board.favorite);
-  // const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(api.board.unfavorite);
+  const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(api.board.favorite);
+  const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(api.board.unfavorite);
 
   const toggleFavorite = () => {
-    // if (isFavorite) {
-    //   onUnfavorite({ id }).catch(() => toast.error("Failed to unfavorite"));
-    // } else {
-    //   onFavorite({ id, orgId }).catch(() => toast.error("Failed to favorite"));
-    // }
+    if (isFavorite) {
+      onUnfavorite({ id }).catch(() => toast.error("Failed to unfavorite"));
+    } else {
+      onFavorite({ id, orgId }).catch(() => toast.error("Failed to favorite"));
+    }
   };
 
   return (
@@ -64,8 +61,7 @@ function BoardCard({ id, title, authorId, authorName, createdAt, imageUrl, orgId
           authorLabel={authorLabel}
           createdAtLabel={createdAtLabel}
           onClick={toggleFavorite}
-          // disabled={pendingFavorite || pendingUnfavorite}
-          disabled={false} //sil
+          disabled={pendingFavorite || pendingUnfavorite}
         />
       </div>
     </Link>
@@ -73,7 +69,11 @@ function BoardCard({ id, title, authorId, authorName, createdAt, imageUrl, orgId
 }
 
 BoardCard.Skeleton = function BoardCardSkeleton() {
-  return <div className="aspect-[100/127] rounded-lg overflow-hidden">{/* <Skeleton className="h-full w-full" /> */}</div>;
+  return (
+    <div className="aspect-[100/127] rounded-lg overflow-hidden">
+      <Skeleton className="h-full w-full" />{" "}
+    </div>
+  );
 };
 
 export default BoardCard;
