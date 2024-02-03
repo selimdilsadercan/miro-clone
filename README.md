@@ -32,7 +32,7 @@
 ---
 
 - primary stack: nextjs13-app-nosrc, react, shadcn, tailwind, convex, clerk-withorg
-- secondary stack: zustand, liveblocks
+- secondary stack: zustand, liveblocks, perfect-freehand
 - extra: date-fns, use-hooks
 - ui: font = poppins-inter, icons = lucide
 
