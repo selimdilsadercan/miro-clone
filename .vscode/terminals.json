@@ -1,0 +1,18 @@
+{
+  "autorun": true,
+  "terminals": [
+    {
+      "name": "commands",
+      "focus": true,
+      "command": "echo \"Hello World\""
+    },
+    {
+      "name": "website",
+      "command": "npm run dev"
+    },
+    {
+      "name": "convex",
+      "command": "npx convex dev"
+    }
+  ]
+}

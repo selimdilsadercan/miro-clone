@@ -157,7 +157,7 @@ export const getById = query({
 
 ////
 
-export const getAll = query({
+export const getMany = query({
   args: {
     orgId: v.string(),
     search: v.optional(v.string()),
