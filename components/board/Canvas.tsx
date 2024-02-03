@@ -2,8 +2,8 @@
 
 import { LiveObject } from "@liveblocks/client";
 import { useHistory, useCanUndo, useCanRedo, useMutation, useStorage, useOthersMapped, useSelf } from "@/liveblocks.config";
-// import { colorToCss, connectionIdToColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from "@/types";
+// import { colorToCss, connectionIdToColor, findIntersectingLayersWithRectangle, penPointsToPathLayer, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
 // import { useDisableScrollBounce } from "@/hooks/use-disable-scroll-bounce";
 // import { useDeleteLayers } from "@/hooks/use-delete-layers";
 import { nanoid } from "nanoid";
@@ -11,6 +11,7 @@ import { useCallback, useMemo, useState, useEffect } from "react";
 import Info from "./Info";
 import Participants from "./Participants";
 import Toolbar from "./Toolbar";
+import SelectionTools from "./SelectionTools";
 
 const MAX_LAYERS = 100;
 
@@ -22,14 +23,14 @@ function Canvas({ boardId }: Props) {
   // const layerIds = useStorage((root) => root.layerIds);
 
   // const pencilDraft = useSelf((me) => me.presence.pencilDraft);
-  // const [canvasState, setCanvasState] = useState<CanvasState>({ mode: CanvasMode.None });
-  // const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
-  // const [lastUsedColor, setLastUsedColor] = useState<Color>({ r: 0, g: 0, b: 0 });
+  const [canvasState, setCanvasState] = useState<CanvasState>({ mode: CanvasMode.None });
+  const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
+  const [lastUsedColor, setLastUsedColor] = useState<Color>({ r: 0, g: 0, b: 0 });
 
   // useDisableScrollBounce();
-  // const history = useHistory();
-  // const canUndo = useCanUndo();
-  // const canRedo = useCanRedo();
+  const history = useHistory();
+  const canUndo = useCanUndo();
+  const canRedo = useCanRedo();
 
   // const insertLayer = useMutation(
   //   ({ storage, setMyPresence }, layerType: LayerType.Ellipse | LayerType.Rectangle | LayerType.Text | LayerType.Note, position: Point) => {
@@ -343,7 +344,7 @@ function Canvas({ boardId }: Props) {
     <main className="h-full w-full relative bg-neutral-100 touch-none">
       <Info boardId={boardId} />
       <Participants />
-      {/* <Toolbar canvasState={canvasState} setCanvasState={setCanvasState} canRedo={canRedo} canUndo={canUndo} undo={history.undo} redo={history.redo} /> */}
+      <Toolbar canvasState={canvasState} setCanvasState={setCanvasState} canRedo={canRedo} canUndo={canUndo} undo={history.undo} redo={history.redo} />
       {/* <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} /> */}
       <svg
         className="h-[100vh] w-[100vw]"
