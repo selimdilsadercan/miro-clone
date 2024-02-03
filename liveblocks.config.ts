@@ -1,5 +1,6 @@
 import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
+import { Layer, Color } from "@/types";
 
 const client = createClient({
   authEndpoint: "/api/liveblocks-auth",
@@ -7,9 +8,11 @@ const client = createClient({
 });
 
 type Presence = {
-  // cursor: { x: number, y: number } | null,
+  cursor: { x: number; y: number } | null;
+  selection: string[];
+  pencilDraft: [x: number, y: number, pressure: number][] | null;
+  penColor: Color | null;
 };
-
 type Storage = {
   // author: LiveObject<{ firstName: string, lastName: string }>,
 };

@@ -12,6 +12,8 @@ import Info from "./Info";
 import Participants from "./Participants";
 import Toolbar from "./Toolbar";
 import SelectionTools from "./SelectionTools";
+import CursorsPresence from "./CursorsPresence";
+import { pointerEventToCanvasPoint } from "@/lib/utils";
 
 const MAX_LAYERS = 100;
 
@@ -201,12 +203,12 @@ function Canvas({ boardId }: Props) {
   //   [history]
   // );
 
-  // const onWheel = useCallback((e: React.WheelEvent) => {
-  //   setCamera((camera) => ({
-  //     x: camera.x - e.deltaX,
-  //     y: camera.y - e.deltaY
-  //   }));
-  // }, []);
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    setCamera((camera) => ({
+      x: camera.x - e.deltaX,
+      y: camera.y - e.deltaY
+    }));
+  }, []);
 
   // const onPointerMove = useMutation(
   //   ({ setMyPresence }, e: React.PointerEvent) => {
@@ -231,9 +233,17 @@ function Canvas({ boardId }: Props) {
   //   [continueDrawing, camera, canvasState, resizeSelectedLayer, translateSelectedLayers, startMultiSelection, updateSelectionNet]
   // );
 
-  // const onPointerLeave = useMutation(({ setMyPresence }) => {
-  //   setMyPresence({ cursor: null });
-  // }, []);
+  const onPointerMove = useMutation(({ setMyPresence }, e: React.PointerEvent) => {
+    e.preventDefault();
+
+    const current = pointerEventToCanvasPoint(e, camera);
+
+    setMyPresence({ cursor: current });
+  }, []); //sil
+
+  const onPointerLeave = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null });
+  }, []);
 
   // const onPointerDown = useCallback(
   //   (e: React.PointerEvent) => {
@@ -348,19 +358,13 @@ function Canvas({ boardId }: Props) {
       {/* <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} /> */}
       <svg
         className="h-[100vh] w-[100vw]"
-        // onWheel={onWheel}
-        // onPointerMove={onPointerMove}
-        // onPointerLeave={onPointerLeave}
+        onWheel={onWheel}
+        onPointerMove={onPointerMove}
+        onPointerLeave={onPointerLeave}
         // onPointerDown={onPointerDown}
         // onPointerUp={onPointerUp}
       >
-        <g
-          style={
-            {
-              // transform: `translate(${camera.x}px, ${camera.y}px)`
-            }
-          }
-        >
+        <g style={{ transform: `translate(${camera.x}px, ${camera.y}px)` }}>
           {/* {layerIds.map((layerId) => (
             <LayerPreview key={layerId} id={layerId} onLayerPointerDown={onLayerPointerDown} selectionColor={layerIdsToColorSelection[layerId]} />
           ))} */}
@@ -374,7 +378,7 @@ function Canvas({ boardId }: Props) {
               height={Math.abs(canvasState.origin.y - canvasState.current.y)}
             />
           )} */}
-          {/* <CursorsPresence /> */}
+          <CursorsPresence />
           {/* {pencilDraft != null && pencilDraft.length > 0 && <Path points={pencilDraft} fill={colorToCss(lastUsedColor)} x={0} y={0} />} */}
         </g>
       </svg>
