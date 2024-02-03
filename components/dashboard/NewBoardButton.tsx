@@ -14,7 +14,7 @@ interface Props {
 
 function NewBoardButton({ orgId, disabled }: Props) {
   const router = useRouter();
-  const { mutate, pending } = useApiMutation(api.board.create);
+  const { mutate, pending } = useApiMutation(api.Board.create);
 
   const onClick = () => {
     mutate({

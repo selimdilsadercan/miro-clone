@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { defineSchema, defineTable } from "convex/server";
 
 export default defineSchema({
-  boards: defineTable({
+  Board: defineTable({
     title: v.string(),
     orgId: v.string(),
     authorId: v.string(),
@@ -17,7 +17,7 @@ export default defineSchema({
   userFavorites: defineTable({
     orgId: v.string(),
     userId: v.string(),
-    boardId: v.id("boards")
+    boardId: v.id("Board")
   })
     .index("by_board", ["boardId"])
     .index("by_user_org", ["userId", "orgId"])

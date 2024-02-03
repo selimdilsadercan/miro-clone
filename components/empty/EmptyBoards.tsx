@@ -11,7 +11,7 @@ import Image from "next/image";
 function EmptyBoards() {
   const router = useRouter();
   const { organization } = useOrganization();
-  const { mutate, pending } = useApiMutation(api.board.create);
+  const { mutate, pending } = useApiMutation(api.Board.create);
 
   const onClick = () => {
     if (!organization) return;

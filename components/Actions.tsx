@@ -20,7 +20,7 @@ interface Props {
 
 function Actions({ children, side, sideOffset, id, title }: Props) {
   // const { onOpen } = useRenameModal();
-  const { mutate, pending } = useApiMutation(api.board.remove);
+  const { mutate, pending } = useApiMutation(api.Board.remove);
 
   const onCopyLink = () => {
     navigator.clipboard

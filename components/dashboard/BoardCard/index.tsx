@@ -30,14 +30,13 @@ function BoardCard({ id, title, authorId, authorName, createdAt, imageUrl, orgId
   const authorLabel = userId === authorId ? "You" : authorName;
   const createdAtLabel = formatDistanceToNow(createdAt, { addSuffix: true });
 
-  const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(api.board.favorite);
-  const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(api.board.unfavorite);
+  const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(api.Board.favorite);
+  const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(api.Board.unfavorite);
 
   const toggleFavorite = () => {
     if (isFavorite) {
       onUnfavorite({ id }).catch(() => toast.error("Failed to unfavorite"));
-    } 
-    else {
+    } else {
       onFavorite({ id, orgId }).catch(() => toast.error("Failed to favorite"));
     }
   };

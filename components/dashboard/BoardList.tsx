@@ -14,7 +14,7 @@ interface Props {
 }
 
 function BoardList({ orgId, query }: Props) {
-  const data = useQuery(api.boards.get, { orgId, ...query });
+  const data = useQuery(api.Board.getAll, { orgId, ...query });
 
   if (data === undefined) {
     return (
