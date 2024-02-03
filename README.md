@@ -36,3 +36,4 @@
 - clerk > customization > avatars kısmından default resmi isme göre harf olarak değiştirebilirsin
 - useDebounce ile inputlarda zaman aralıklı state değişimi yapıyor
 - her bir durum için ayrı empty state'ler yapmayı unutma
+- formatDistanceToNow ile related date yazabiliyosun
