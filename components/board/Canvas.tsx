@@ -206,6 +206,7 @@ function Canvas({ boardId }: Props) {
   );
 
   const onWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
     setCamera((camera) => ({
       x: camera.x - e.deltaX,
       y: camera.y - e.deltaY
