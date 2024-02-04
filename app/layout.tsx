@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 const font = Inter({ subsets: ["latin"] });
 
 import ConvexProvider from "@/providers/convex-provider";
 import ToastProvider from "@/providers/toast-provider";
 import ModalProvider from "@/providers/modal-provider";
-import { Suspense } from "react";
 import Loading from "@/components/Loading";
 
 export const metadata: Metadata = {
