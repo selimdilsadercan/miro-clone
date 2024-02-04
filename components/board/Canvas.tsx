@@ -318,19 +318,47 @@ function Canvas({ boardId }: Props) {
 
   const deleteLayers = useDeleteLayers();
 
+  ////
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       switch (e.key) {
-        // case "Backspace":
-        //   deleteLayers();
-        //   break;
+        case "v":
+          setCanvasState({ mode: CanvasMode.None });
+          break;
+        case "t":
+          setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Text });
+          break;
+        case "n":
+          setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Note });
+          break;
+        case "r":
+          setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Rectangle });
+          break;
+        case "e":
+          setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Ellipse });
+          break;
+        case "p":
+          setCanvasState({ mode: CanvasMode.Pencil });
+          break;
+        case "Delete":
+        case "Backspace":
+          deleteLayers();
+          break;
         case "z": {
           if (e.ctrlKey || e.metaKey) {
-            if (e.shiftKey) {
-              history.redo();
-            } else {
+            if (!e.shiftKey) {
               history.undo();
+              break;
+            } else {
+              history.redo();
+              break;
             }
+          }
+        }
+        case "y": {
+          if (e.ctrlKey || e.metaKey) {
+            history.redo();
             break;
           }
         }
