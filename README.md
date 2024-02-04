@@ -47,3 +47,4 @@
 - formatDistanceToNow ile related date yazabiliyosun
 - many-to-one ya da many-to-one relationlar için ayrı veri yapıları tutuyoruz
 - Component.Skeleton kullanırken ayrı bir use client Loading dosyası açıp her şeyi onda birleştir
+- vercel'da yayınlamadan önce "npm run build" yaparak bir kontrol et (npm run dev kapalı olmalı)
