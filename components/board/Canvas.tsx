@@ -372,6 +372,18 @@ function Canvas({ boardId }: Props) {
     };
   }, [deleteLayers, history]);
 
+  ////
+
+  let cursor = "default";
+  switch (canvasState.mode) {
+    case CanvasMode.Inserting:
+      cursor = "crosshair";
+      break;
+    case CanvasMode.None:
+      cursor = "default";
+      break;
+  }
+
   return (
     <main className="h-full w-full relative bg-neutral-100 touch-none">
       <Info boardId={boardId} />
@@ -379,7 +391,8 @@ function Canvas({ boardId }: Props) {
       <Toolbar canvasState={canvasState} setCanvasState={setCanvasState} canRedo={canRedo} canUndo={canUndo} undo={history.undo} redo={history.redo} />
       <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
       <svg
-        className="h-[100vh] w-[100vw]"
+        style={{ cursor: cursor }}
+        className="h-[100vh] w-[100vw] cur"
         onWheel={onWheel}
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
