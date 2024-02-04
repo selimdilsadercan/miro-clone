@@ -26,6 +26,7 @@ interface Props {
 function Canvas({ boardId }: Props) {
   const layerIds = useStorage((root) => root.layerIds);
 
+  const me = useSelf((me) => me);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
   const [canvasState, setCanvasState] = useState<CanvasState>({ mode: CanvasMode.None });
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
@@ -318,12 +319,65 @@ function Canvas({ boardId }: Props) {
 
   const deleteLayers = useDeleteLayers();
 
+  const copyLayer = useMutation(({ storage, self }) => {
+    const liveLayers = storage.get("layers");
+    const layer = liveLayers.get(self.presence.selection[0]);
+
+    layer && navigator.clipboard.writeText(JSON.stringify(layer.toObject()));
+  }, []);
+
+  const pasteLayer = useMutation(({ storage, setMyPresence }) => {
+    navigator.clipboard.readText().then((text) => {
+      const layer = JSON.parse(text);
+      console.log(layer);
+
+      const liveLayers = storage.get("layers");
+      const liveLayerIds = storage.get("layerIds");
+      const id = nanoid();
+
+      liveLayers.set(id, new LiveObject({ ...layer, x: layer.x + layer.width + 24 }));
+      liveLayerIds.push(id);
+
+      setMyPresence({ selection: [id] }, { addToHistory: true });
+    });
+  }, []);
+
+  const duplicateLayer = useMutation(({ storage, self, setMyPresence }) => {
+    const liveLayers = storage.get("layers");
+    const liveLayerIds = storage.get("layerIds");
+
+    const layer = JSON.parse(JSON.stringify(liveLayers.get(self.presence.selection[0])?.toObject()));
+
+    const id = nanoid();
+    liveLayers.set(id, new LiveObject({ ...layer, x: layer.x + layer.width + 24 }));
+    liveLayerIds.push(id);
+
+    setMyPresence({ selection: [id] }, { addToHistory: true });
+  }, []);
+
   ////
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       switch (e.key) {
+        case "c": {
+          if (e.ctrlKey || e.metaKey) {
+            copyLayer();
+          }
+          break;
+        }
+        case "d": {
+          e.preventDefault();
+          if (e.ctrlKey || e.metaKey) {
+            duplicateLayer();
+            break;
+          }
+        }
         case "v":
+          if (e.ctrlKey || e.metaKey) {
+            pasteLayer();
+            break;
+          }
           setCanvasState({ mode: CanvasMode.None });
           break;
         case "t":
