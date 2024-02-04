@@ -26,7 +26,6 @@ interface Props {
 function Canvas({ boardId }: Props) {
   const layerIds = useStorage((root) => root.layerIds);
 
-  const me = useSelf((me) => me);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
   const [canvasState, setCanvasState] = useState<CanvasState>({ mode: CanvasMode.None });
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
@@ -213,13 +212,23 @@ function Canvas({ boardId }: Props) {
     }));
   }, []);
 
+  const startPanning = useCallback((e: React.PointerEvent, current: Point) => {
+    setCanvasState({ mode: CanvasMode.Panning, current: current });
+    setCamera((camera) => ({
+      x: camera.x + e.movementX,
+      y: camera.y + e.movementY
+    }));
+  }, []);
+
   const onPointerMove = useMutation(
     ({ setMyPresence }, e: React.PointerEvent) => {
       e.preventDefault();
 
       const current = pointerEventToCanvasPoint(e, camera);
 
-      if (canvasState.mode === CanvasMode.Pressing) {
+      if (canvasState.mode === CanvasMode.Panning) {
+        startPanning(e, current);
+      } else if (canvasState.mode === CanvasMode.Pressing) {
         startMultiSelection(current, canvasState.origin);
       } else if (canvasState.mode === CanvasMode.SelectionNet) {
         updateSelectionNet(current, canvasState.origin);
@@ -244,6 +253,11 @@ function Canvas({ boardId }: Props) {
     (e: React.PointerEvent) => {
       const point = pointerEventToCanvasPoint(e, camera);
 
+      if (canvasState.mode === CanvasMode.Pan) {
+        startPanning(e, point);
+        return;
+      }
+
       if (canvasState.mode === CanvasMode.Inserting) {
         return;
       }
@@ -253,6 +267,11 @@ function Canvas({ boardId }: Props) {
         return;
       }
 
+      if (e.buttons === 4) {
+        setCanvasState({ mode: CanvasMode.Pan });
+        startPanning(e, point);
+        return;
+      }
       setCanvasState({ origin: point, mode: CanvasMode.Pressing });
     },
     [camera, canvasState.mode, setCanvasState, startDrawing]
@@ -271,6 +290,13 @@ function Canvas({ boardId }: Props) {
         insertPath();
       } else if (canvasState.mode === CanvasMode.Inserting) {
         insertLayer(canvasState.layerType, point);
+      } else if (canvasState.mode === CanvasMode.Panning) {
+        console.log(e);
+        if (e.button == 1) {
+          setCanvasState({ mode: CanvasMode.None });
+        } else {
+          setCanvasState({ mode: CanvasMode.Pan });
+        }
       } else {
         setCanvasState({
           mode: CanvasMode.None
@@ -329,7 +355,6 @@ function Canvas({ boardId }: Props) {
   const pasteLayer = useMutation(({ storage, setMyPresence }) => {
     navigator.clipboard.readText().then((text) => {
       const layer = JSON.parse(text);
-      console.log(layer);
 
       const liveLayers = storage.get("layers");
       const liveLayerIds = storage.get("layerIds");
@@ -430,6 +455,12 @@ function Canvas({ boardId }: Props) {
 
   let cursor = "default";
   switch (canvasState.mode) {
+    case CanvasMode.Pan:
+      cursor = "grab";
+      break;
+    case CanvasMode.Panning:
+      cursor = "grabbing";
+      break;
     case CanvasMode.Inserting:
       cursor = "crosshair";
       break;

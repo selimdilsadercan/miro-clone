@@ -1,4 +1,4 @@
-import { Circle, MousePointer2, Pencil, Redo2, Square, StickyNote, Type, Undo2 } from "lucide-react";
+import { Circle, Hand, MousePointer2, Pencil, Redo2, Square, StickyNote, Type, Undo2 } from "lucide-react";
 import ToolButton from "./ToolButton";
 import { CanvasMode, CanvasState, LayerType } from "@/types";
 
@@ -26,6 +26,12 @@ function Toolbar({ canvasState, setCanvasState, undo, redo, canUndo, canRedo }: 
             canvasState.mode === CanvasMode.Pressing ||
             canvasState.mode === CanvasMode.Resizing
           }
+        />
+        <ToolButton
+          label="Pan"
+          icon={Hand}
+          onClick={() => setCanvasState({ mode: CanvasMode.Pan })}
+          isActive={canvasState.mode === CanvasMode.Pan || canvasState.mode === CanvasMode.Panning}
         />
         <ToolButton
           label="Text"

@@ -97,6 +97,13 @@ export type CanvasState =
       current?: Point;
     }
   | {
+      mode: CanvasMode.Pan;
+    }
+  | {
+      mode: CanvasMode.Panning;
+      current: Point;
+    }
+  | {
       mode: CanvasMode.Translating;
       current: Point;
     }
@@ -119,6 +126,8 @@ export type CanvasState =
 
 export enum CanvasMode {
   None,
+  Pan,
+  Panning,
   Pressing,
   SelectionNet,
   Translating,
